@@ -30,10 +30,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  void _addDiary() {
     setState(() {
       _counter++;
     });
+
+    var d = EditiorialDay.today();
+    var key = d.toKey();
+    print("Edit:${key.key}");
   }
 
   String _editTitle() {
@@ -57,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _addDiary,
         tooltip: _editTitle(),
         child: Icon(Icons.add),
       ),

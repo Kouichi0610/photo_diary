@@ -4,8 +4,14 @@
   02:00～01:59
   2021/05/18 01:59まで5/17扱いとする
  */
+import 'package:photo_diary/domain/calendar_key.dart';
+
 class EditiorialDay {
-  String _day;
+  int _year;
+  int _month;
+  int _day;
+
+  CalendarKey toKey() => CalendarKey(DateTime(_year, _month, _day));
 
   DateTime _currentDay(DateTime now) {
     final DateTime limit = DateTime(now.year, now.month, now.day, 2);
@@ -18,16 +24,15 @@ class EditiorialDay {
 
   EditiorialDay(DateTime now) {
     var current = _currentDay(now);
-    var year = current.year;
-    var month = current.month;
-    var day = current.day;
-    _day = "${year}年${month}月${day}日";
+    _year = current.year;
+    _month = current.month;
+    _day = current.day;
   }
 
   EditiorialDay.today() : this(DateTime.now());
 
   @override
   String toString() {
-    return _day;
+    return "${_year.toString()}年${_month.toString()}月${_day.toString()}日";
   }
 }

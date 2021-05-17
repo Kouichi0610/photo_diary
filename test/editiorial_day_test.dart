@@ -15,4 +15,11 @@ void main() {
       expect(actual.toString(), value);
     });
   });
+
+  test('EditiorialDay.toKey', () {
+    var day = EditiorialDay(DateTime(2021, 4, 5, 12, 0));
+    var key = day.toKey();
+
+    expect(key.key, 20210405);
+  });
 }
