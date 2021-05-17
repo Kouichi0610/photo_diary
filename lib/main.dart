@@ -6,12 +6,6 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    for (var i = 0; i < 24; i++) {
-      var d = DateTime(2021, 3, 1, i, 0, 0);
-      var t = EditiorialDay(d);
-      print('${i}時 ${t.toString()}');
-    }
-
     return MaterialApp(
       title: 'photo_diary',
       theme: ThemeData(
