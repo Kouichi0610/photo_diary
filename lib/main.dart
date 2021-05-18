@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_diary/domain/editiorial_day.dart';
 import 'package:photo_diary/ui/calendar.dart';
-
 import 'domain/calendar_key.dart';
 
 void main() => runApp(MyApp());
