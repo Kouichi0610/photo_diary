@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:photo_diary/domain/editiorial_day.dart';
 import 'package:photo_diary/ui/calendar.dart';
-import 'domain/calendar_key.dart';
+import 'package:photo_diary/ui/photo_diary.dart';
+
+import 'domain/diary.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,16 +29,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _addDiary() {
+  String _toTitle(DateTime now) {
+    return "${now.year}年${now.month}月${now.day}日";
+  }
+
+  void _addDiary() async {
+    Diary res = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return PhotoDiary(title: _toTitle(DateTime.now()), editMode: true);
+      }),
+    );
+    print("Result:${res.toString()}");
     setState(() {
-      _counter++;
     });
-
-    var d = EditiorialDay.today();
-    var key = d.toKey();
-    print("Edit:${key.key}");
   }
 
   String _editTitle() {
@@ -44,12 +51,21 @@ class _MyHomePageState extends State<MyHomePage> {
     return "${e.toString()}の日記を書く";
   }
 
-  void dayPressed(CalendarKey key) {
-    print("DayPressed:${key.key}");
+  void dayPressed(DateTime day) async {
+    Diary res = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return PhotoDiary(title: _toTitle(day), editMode: false);
+      }),
+    );
+    print("Result:${res.toString()}");
+    setState(() {
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    print("ReBuild.");
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
