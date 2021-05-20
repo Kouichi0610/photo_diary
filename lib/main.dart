@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:photo_diary/domain/editiorial_day.dart';
+import 'package:photo_diary/repository/factory.dart';
 import 'package:photo_diary/ui/calendar.dart';
 import 'package:photo_diary/ui/photo_diary.dart';
+import 'package:photo_diary/ui/photo_selector.dart';
 
+import 'domain/calendar_key.dart';
 import 'domain/diary.dart';
 
 void main() => runApp(MyApp());
@@ -35,14 +38,27 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addDiary() async {
-    Diary res = await Navigator.push(
+    var key = CalendarKey(DateTime.now());
+    var rp = CreateDiaryReadWriter();
+    var prev = await rp.read(key: key);
+    print("Prev:${prev.toString()}");
+
+    Diary next = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return PhotoDiary(title: _toTitle(DateTime.now()), editMode: true);
+        return PhotoSelector(_toTitle(DateTime.now()), prev);
       }),
     );
-    print("Result:${res.toString()}");
+
+    if (next.empty()) return;
+    if (next.equals(prev)) {
+      print("変更なし");
+      return;
+    }
+
+    await rp.write(key: key, diary: next);
     setState(() {
+      // TODO:一カ月分の Map<CalendarKey, Diary>
     });
   }
 
