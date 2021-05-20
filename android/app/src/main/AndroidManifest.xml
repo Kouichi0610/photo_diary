@@ -2,6 +2,7 @@
     package="com.example.photo_diary">
    <application
         android:label="photo_diary"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -12,6 +12,10 @@ class Diary {
     return image == null || text == null;
   }
 
+  bool equals(Diary other) {
+    return image == other.image && text == other.text;
+  }
+
   @override
   String toString() {
     return "Text:${text} Image:${image}";

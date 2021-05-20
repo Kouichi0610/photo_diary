@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel, EventList;
-import 'package:photo_diary/domain/calendar_key.dart';
 
-typedef DayPressedCallback = void Function(CalendarKey key);
+typedef DayPressedCallback = void Function(DateTime day);
 
 class Calendar extends StatefulWidget {
   DayPressedCallback onDayPressed;
@@ -29,9 +27,8 @@ class _CalendarState extends State<Calendar> {
 
   void onDayPressed(DateTime date, List<Event> events) {
     this.setState(() {
-      _current = date;
     });
-    widget.onDayPressed(CalendarKey(date));
+    widget.onDayPressed(date);
   }
 
   @override
