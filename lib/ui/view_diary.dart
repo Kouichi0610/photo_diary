@@ -11,15 +11,18 @@ class ViewDiary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: SafeArea(
         child: Column(
           children: [
             Container(
+              height: height/3,
               child: PhotoImage(File(diary.image)),
             ),
             Container(
+              height: height/3,
               child: Text(
                 diary.text,
               ),

@@ -32,6 +32,6 @@ class DiaryEvent implements EventInterface {
 
   @override
   String getTitle() {
-    return "${date.year}/${date.month}${date.day}の日記";
+    return "${date.year}/${date.month}/${date.day}の日記";
   }
 }
