@@ -11,7 +11,7 @@ class DiaryReadWriter {
     return Future
       .delayed(const Duration(seconds: 1))
       .then((_) {
-        return Diary(image: "a", text: "b");
+        return Diary(image: "dummy", text: "diary");
       });
   }
   Future<void> write({CalendarKey key, Diary diary}) {
