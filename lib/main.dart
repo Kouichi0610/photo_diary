@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:photo_diary/domain/editiorial_day.dart';
 import 'package:photo_diary/repository/factory.dart';
+import 'package:photo_diary/repository/month_diaries.dart';
 import 'package:photo_diary/ui/calendar.dart';
 import 'package:photo_diary/ui/photo_diary.dart';
 import 'package:photo_diary/ui/photo_selector.dart';
@@ -32,6 +33,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _year;
+  int _month;
+
+  _MyHomePageState() {
+    var now = DateTime.now();
+    _year = now.year;
+    _month = now.month;
+  }
 
   String _toTitle(DateTime now) {
     return "${now.year}年${now.month}月${now.day}日";
@@ -50,16 +59,14 @@ class _MyHomePageState extends State<MyHomePage> {
       }),
     );
 
-    if (next.empty()) return;
-    if (next.equals(prev)) {
-      print("変更なし");
-      return;
-    }
+    // 変更なし
+    if (next.equals(prev)) return;
 
     await rp.write(key: key, diary: next);
+    /*
     setState(() {
-      // TODO:一カ月分の Map<CalendarKey, Diary>
     });
+     */
   }
 
   String _editTitle() {
@@ -67,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return "${e.toString()}の日記を書く";
   }
 
-  void dayPressed(DateTime day) async {
+  void _dayPressed(DateTime day) async {
+    if (true) return;
     Diary res = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
@@ -79,16 +87,26 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<Map<DateTime, Diary>> _monthDiaries() async {
+    var md = MonthDiaries(_year, _month);
+    return await md.diaries();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print("ReBuild.");
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: Center(
-        child: Calendar(
-          dayPressed: dayPressed,
+        child: FutureBuilder(
+          future: _monthDiaries(),
+          builder: (BuildContext context, AsyncSnapshot<Map<DateTime, Diary>> snapShot) {
+            if (!snapShot.hasData || snapShot.connectionState != ConnectionState.done) {
+              return CircularProgressIndicator();
+            }
+            return Calendar(_dayPressed, snapShot.data);
+          }
         ),
       ),
       floatingActionButton: FloatingActionButton(

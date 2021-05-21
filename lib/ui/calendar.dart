@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
     show CalendarCarousel, EventList;
+import 'package:photo_diary/domain/diary.dart';
 
 typedef DayPressedCallback = void Function(DateTime day);
 
 class Calendar extends StatefulWidget {
-  DayPressedCallback onDayPressed;
+  final DayPressedCallback onDayPressed;
+  final Map<DateTime, Diary> diaries;
 
-  Calendar({DayPressedCallback dayPressed}) {
-    onDayPressed = dayPressed;
-  }
+  const Calendar(this.onDayPressed, this.diaries);
 
   @override
   State<StatefulWidget> createState() => _CalendarState();
@@ -20,14 +20,24 @@ class _CalendarState extends State<Calendar> {
   DateTime _current = DateTime.now();
   EventList<Event> _marked = EventList<Event>();
 
-  _CalendarState() {
+  @override
+  void initState() {
     _marked = EventList<Event>();
     _marked.events = Map<DateTime, List<Event>>();
+
+    widget.diaries.forEach((key, value) {
+      _marked.add(
+          key,
+          Event(
+            date: key,
+            title: "",
+            icon: Icon(Icons.article_outlined),
+          )
+      );
+    });
   }
 
   void onDayPressed(DateTime date, List<Event> events) {
-    this.setState(() {
-    });
     widget.onDayPressed(date);
   }
 
@@ -38,18 +48,15 @@ class _CalendarState extends State<Calendar> {
       margin: EdgeInsets.symmetric(horizontal: 16.0),
       child: CalendarCarousel<Event>(
         onDayPressed: onDayPressed,
-        childAspectRatio: 1.6,
         weekendTextStyle: TextStyle(color: Colors.red),
         thisMonthDayBorderColor: Colors.grey,
         weekFormat: false,
-        height: 580,
         selectedDateTime: _current,
         daysHaveCircularBorder: false,
         customGridViewPhysics: NeverScrollableScrollPhysics(),
         markedDatesMap: _marked,
-        //markedDateWidget: Image.asset("images/glass.png"),
         markedDateShowIcon: true,
-        markedDateIconMaxShown: 2,
+        markedDateIconMaxShown: 1,
         locale: 'JA',
         todayTextStyle: TextStyle(
           color: Colors.blue,

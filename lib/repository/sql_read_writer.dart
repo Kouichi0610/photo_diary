@@ -5,13 +5,6 @@ import 'package:photo_diary/repository/diary_read_writer.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-/*
-  diarySample() async {
-    var r = CreateDiaryReadWriter();
-    await r.write(key: CalendarKey(DateTime(2001, 1, 1)), diary: Diary(image: "IMageA", text: "textB"));
-    var d = await r.read(key: CalendarKey(DateTime(2000, 1, 1)));
-  }
- */
 class _Sqlite {
   _Sqlite._();
   static final _Sqlite instance = _Sqlite._();
