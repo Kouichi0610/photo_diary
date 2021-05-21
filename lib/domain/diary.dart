@@ -18,6 +18,7 @@ class Diary {
 
   @override
   String toString() {
+    if (empty()) return "(empty)";
     return "Text:${text} Image:${image}";
   }
 }
