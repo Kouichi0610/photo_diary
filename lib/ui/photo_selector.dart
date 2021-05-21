@@ -68,6 +68,7 @@ class _PhotoSelectorState extends State<PhotoSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () {
         // 戻る->変更無し
@@ -81,6 +82,7 @@ class _PhotoSelectorState extends State<PhotoSelector> {
               Align(
                 alignment: Alignment(0, -1),
                 child: Container(
+                  height: height/3,
                   child: PhotoImage(_image),
                 ),
               ),
